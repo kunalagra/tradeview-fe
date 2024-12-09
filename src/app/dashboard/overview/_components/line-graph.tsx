@@ -1,7 +1,7 @@
 'use client';
 
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import { DatePickerWithRange } from '@/components/date-range-picker';
@@ -44,18 +44,19 @@ export function LineGraph() {
 		to: new Date(2021, 11, 31),
 	});
 	const [error, setError] = useState<string | null>(null); // Error state
-	const [ws, setWs] = useState<WebSocket | null>(null);
+	const wsRef = useRef<WebSocket | null>(null);
 
-	// Fetch available indices and select the first one by default
 	useEffect(() => {
 		const fetchIndices = async () => {
 			try {
 				const socket = new WebSocket(
 					process.env.NEXT_PUBLIC_WEBSOCKET_URL || '',
 				);
+
 				socket.onopen = () => {
 					socket.send(JSON.stringify({ type: 'getIndices' }));
 				};
+
 				socket.onmessage = (event) => {
 					const data = JSON.parse(event.data);
 					if (data.type === 'indices') {
@@ -63,9 +64,23 @@ export function LineGraph() {
 						if (data.data.length > 0) {
 							setSelectedIndex(data.data[0]);
 						}
+					} else if (data.type === 'chartData') {
+						setChartData(data.data);
+						setError(null); // Clear error if data fetch is successful
+					} else if (data.type === 'error') {
+						setError(data.message);
 					}
 				};
-				setWs(socket);
+
+				socket.onerror = (error) => {
+					console.error('WebSocket error:', error);
+				};
+
+				socket.onclose = () => {
+					console.warn('WebSocket connection closed.');
+				};
+
+				wsRef.current = socket;
 			} catch (error) {
 				setError('Failed to fetch indices.');
 				console.error('Failed to fetch indices:', error);
@@ -75,21 +90,25 @@ export function LineGraph() {
 		fetchIndices();
 
 		return () => {
-			if (ws) {
-				ws.close(); // Close the WebSocket connection when the component unmounts
+			if (wsRef.current) {
+				wsRef.current.close();
 			}
 		};
 	}, []);
 
-	// Handle WebSocket data fetching when the selected index or date range changes
 	useEffect(() => {
-		if (!selectedIndex || !dateRange.from || !dateRange.to || !ws) return;
+		if (
+			!selectedIndex ||
+			!dateRange.from ||
+			!dateRange.to ||
+			!wsRef.current
+		)
+			return;
 
 		const fromDate = format(dateRange.from, 'yyyy-MM-dd');
 		const toDate = format(dateRange.to, 'yyyy-MM-dd');
 
-		// Send request for chart data over WebSocket
-		ws.send(
+		wsRef.current.send(
 			JSON.stringify({
 				type: 'getChartData',
 				symbol: selectedIndex,
@@ -97,18 +116,7 @@ export function LineGraph() {
 				to_date: toDate,
 			}),
 		);
-
-		// Handle incoming WebSocket messages
-		ws.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-			if (data.type === 'chartData') {
-				setChartData(data.data);
-				setError(null); // Clear error if data fetch is successful
-			} else if (data.type === 'error') {
-				setError(data.message);
-			}
-		};
-	}, [selectedIndex, dateRange, ws]);
+	}, [wsRef, selectedIndex, dateRange]);
 
 	// // Axios Fetch available indices and select the first one by default
 	// useEffect(() => {

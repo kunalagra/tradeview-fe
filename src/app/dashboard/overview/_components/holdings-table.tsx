@@ -56,7 +56,16 @@ export function HoldingsTable() {
 	};
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return (
+			<div className="flex flex-1 flex-col gap-4 p-4">
+				<div className="grid auto-rows-min gap-4 md:grid-cols-3">
+					<div className="aspect-video rounded-xl bg-muted/50" />
+					<div className="aspect-video rounded-xl bg-muted/50" />
+					<div className="aspect-video rounded-xl bg-muted/50" />
+				</div>
+				<div className="grid auto-rows-min gap-4 aspect-video rounded-xl bg-muted/50" />
+			</div>
+		);
 	}
 	return (
 		<div className="space-y-4">
@@ -86,7 +95,7 @@ export function HoldingsTable() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
-							Day`&apos;`s Change
+							Day&apos;s Change
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
@@ -146,11 +155,7 @@ export function HoldingsTable() {
 						<CardTitle>Your Holdings</CardTitle>
 					</CardHeader>
 					<CardContent>
-						{loading ? (
-							<div>Loading...</div>
-						) : (
-							<DataTable columns={columns} data={holdingData} />
-						)}
+						<DataTable columns={columns} data={holdingData} />
 					</CardContent>
 				</Card>
 			</div>

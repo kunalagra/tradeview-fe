@@ -111,9 +111,9 @@ A user should be able to
 The basic requirements are as follows :
 
 - Login Page
-         It should have two inputs username and password and a button to log in
+  It should have two inputs username and password and a button to log in
 - Register Page
-         Should have inputs for name, username, and password
+  Should have inputs for name, username, and password
 - Dashboard Page
     - Should display profile information as returned by _profile_response.json_
     - A table that shows the response from _holdings_response.json_
@@ -132,7 +132,7 @@ The basic requirements are as follows :
 - Create endpoints that return mock responses
     - GET portfolio/holdings - _holdings_response.json_
     - GET user/profile - _profile_response.json_
-    - POST order/place_order -_place_order_response.json_
+    - POST order/place*order -\_place_order_response.json*
 
 🔥 **Extra Points for:**
 
