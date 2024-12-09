@@ -79,7 +79,7 @@ export function LineGraph() {
 				ws.close(); // Close the WebSocket connection when the component unmounts
 			}
 		};
-	}, [ws]);
+	}, []);
 
 	// Handle WebSocket data fetching when the selected index or date range changes
 	useEffect(() => {
