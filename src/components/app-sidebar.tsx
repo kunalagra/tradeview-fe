@@ -1,13 +1,5 @@
 'use client';
 
-import * as React from 'react';
-import {
-	ChartCandlestick,
-	GalleryVerticalEnd,
-
-} from 'lucide-react';
-import axiosClient from '@/lib/axiosClient';
-import { setCookie, getCookie } from 'cookies-next';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { TeamSwitcher } from '@/components/team-switcher';
@@ -18,6 +10,10 @@ import {
 	SidebarHeader,
 	SidebarRail,
 } from '@/components/ui/sidebar';
+import axiosClient from '@/lib/axiosClient';
+import { getCookie, setCookie } from 'cookies-next';
+import { ChartCandlestick, GalleryVerticalEnd } from 'lucide-react';
+import * as React from 'react';
 
 // This is sample data.
 const data = {

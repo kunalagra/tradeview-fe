@@ -28,6 +28,7 @@ export const loginUser = async (email: string, password: string) => {
 			throw new Error('Login failed');
 		}
 	} catch (error) {
+		console.error(error);
 		throw new Error('Login failed');
 	}
 };

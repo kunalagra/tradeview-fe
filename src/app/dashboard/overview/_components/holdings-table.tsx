@@ -1,19 +1,11 @@
 'use client';
 
-import * as React from 'react';
 import { DataTable } from '@/components/data-table';
-import { Holdings, columns, getColor } from './holdings';
 import axiosClient from '@/lib/axiosClient';
 import { useEffect, useState } from 'react';
+import { Holdings, columns, getColor } from './holdings';
 
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function HoldingsTable() {
 	const [holdingData, setHoldingData] = useState<Holdings[]>([]);
@@ -94,7 +86,7 @@ export function HoldingsTable() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
-							Day's Change
+							Day`&apos;`s Change
 						</CardTitle>
 					</CardHeader>
 					<CardContent>

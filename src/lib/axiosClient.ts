@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { getCookie, deleteCookie } from 'cookies-next';
-import { useRouter } from 'next/navigation'; // Import useRouter hook
+import { getCookie } from 'cookies-next';
 import { logoutUser } from './authLib';
 
 const axiosClient = axios.create({

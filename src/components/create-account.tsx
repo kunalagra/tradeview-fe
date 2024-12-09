@@ -1,8 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import axiosClient from '@/lib/axiosClient'; // Import your axios client for API requests
-import { loginUser } from '@/lib/authLib'; // Import login utility
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -14,11 +11,14 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
+import { loginUser } from '@/lib/authLib';
+import axiosClient from '@/lib/axiosClient';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 // Define Zod schema for form validation
 const createAccountSchema = z.object({
@@ -63,7 +63,8 @@ export function CreateAccount() {
 					description: 'You have successfully logged in!',
 				});
 			}
-		} catch (err: any) {
+		} catch (err) {
+			console.error(err);
 			toast({
 				title: 'Registration Failed',
 				description: 'Failed to create an account',

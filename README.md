@@ -13,15 +13,12 @@
   <a href="#license">License</a>
 </p>
 
-
 ## Key Features
 
-* Websocket for Data Streaming of Indices
-* Beautiful charts and UI
-* Form validation using Zod
-* Server side components for perfomance
-    
-  
+- Websocket for Data Streaming of Indices
+- Beautiful charts and UI
+- Form validation using Zod
+- Server side components for perfomance
 
 ## How To Use
 
@@ -43,8 +40,9 @@ $ npm install
 # Run the app
 $ npm run dev
 ```
+
 > [!IMPORTANT]  
-> Populate your .env keys with their respective values. 
+> Populate your .env keys with their respective values.
 
 > [!NOTE]
 > If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
@@ -56,7 +54,6 @@ This software uses the following packages:
 - [Node.js](https://nodejs.org/)
 - [NextJS](https://github.com/vercel/next.js/)
 - [ShadCN UI](https://ui.shadcn.com/)
-
 
 ## You may also like...
 

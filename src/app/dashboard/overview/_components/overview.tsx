@@ -1,17 +1,10 @@
-import { LineGraph } from './line-graph';
-import { OrderForm } from './place-order';
 import PageContainer from '@/components/layout/page-container';
-import { RecentOrders } from './recent-orders';
-import { Button } from '@/components/ui/button';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { HoldingsTable } from './holdings-table';
+import { LineGraph } from './line-graph';
+import { OrderForm } from './place-order';
+import { RecentOrders } from './recent-orders';
 
 export default function OverViewPage() {
 	return (

@@ -1,8 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { loginUser } from '@/lib/authLib'; // Import the login utility function
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -13,11 +10,14 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
+import { loginUser } from '@/lib/authLib'; // Import the login utility function
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 // Define the Zod schema for form validation
 const loginSchema = z.object({
@@ -50,7 +50,8 @@ export function LoginForm() {
 				description: 'You have successfully logged in!',
 			});
 			router.push('/dashboard');
-		} catch (err: any) {
+		} catch (err) {
+			console.error(err);
 			toast({
 				title: 'Login Failed',
 				description: 'Invalid Credentials',
