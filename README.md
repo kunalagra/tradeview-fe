@@ -13,12 +13,23 @@
   <a href="#license">License</a>
 </p>
 
+![Screenshot](./screenshot.png)
+
+
 ## Key Features
 
 - Websocket for Data Streaming of Indices
 - Beautiful charts and UI
 - Form validation using Zod
 - Server side components for perfomance
+
+## To Improve
+
+- Use Hashmap to cache data of Indices and local checks to see if data exists already before requesting new data
+- Use state managment
+- Security parts of cookies
+- Add Zoomable parts in chart
+
 
 ## How To Use
 
