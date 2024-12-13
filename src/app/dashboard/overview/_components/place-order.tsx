@@ -22,6 +22,7 @@ const FormSchema = z.object({
 	symbol: z.string().min(1, { message: 'Symbol is required.' }),
 	quantity: z
 		.number()
+		.int()
 		.positive({ message: 'Quantity must be a positive number.' }),
 	price: z.number().positive({ message: 'Price must be a positive number.' }),
 });

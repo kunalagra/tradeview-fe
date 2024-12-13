@@ -15,7 +15,6 @@
 
 ![Screenshot](./screenshot.png)
 
-
 ## Key Features
 
 - Websocket for Data Streaming of Indices
@@ -29,7 +28,6 @@
 - Use state managment
 - Security parts of cookies
 - Add Zoomable parts in chart
-
 
 ## How To Use
 

@@ -65,8 +65,10 @@ export function LineGraph() {
 							setSelectedIndex(data.data[0]);
 						}
 					} else if (data.type === 'chartData') {
-						setChartData(data.data);
-						setError(null); // Clear error if data fetch is successful
+						if (data.data.length > 0) {
+							setChartData(data.data);
+							setError(null);
+						} else setError('No data available');
 					} else if (data.type === 'error') {
 						setError(data.message);
 					}
