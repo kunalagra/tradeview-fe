@@ -1,10 +1,10 @@
-'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	Form,
 	FormControl,
@@ -12,26 +12,26 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
-import axiosClient from '@/lib/axiosClient';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import axiosClient from "@/lib/axiosClient";
 
 // Define schema for form validation
 const FormSchema = z.object({
-	symbol: z.string().min(1, { message: 'Symbol is required.' }),
+	symbol: z.string().min(1, { message: "Symbol is required." }),
 	quantity: z
 		.number()
 		.int()
-		.positive({ message: 'Quantity must be a positive number.' }),
-	price: z.number().positive({ message: 'Price must be a positive number.' }),
+		.positive({ message: "Quantity must be a positive number." }),
+	price: z.number().positive({ message: "Price must be a positive number." }),
 });
 
 export function OrderForm() {
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			symbol: '',
+			symbol: "",
 			quantity: 0,
 			price: 0,
 		},
@@ -40,17 +40,17 @@ export function OrderForm() {
 
 	async function onSubmit(data: z.infer<typeof FormSchema>) {
 		try {
-			const response = await axiosClient.post('/order/place_order', data); // Replace with your API endpoint
+			const response = await axiosClient.post("/order/place_order", data); // Replace with your API endpoint
 			toast({
-				title: 'Order Submitted',
+				title: "Order Submitted",
 				description: `Order for ${data.symbol} submitted successfully! Order ID: ${response.data.data.order_id}`,
 			});
 		} catch (error) {
-			console.error('Error submitting order:', error);
+			console.error("Error submitting order:", error);
 			toast({
-				title: 'Submission Failed',
+				title: "Submission Failed",
 				description:
-					'There was an error submitting your order. Please try again.',
+					"There was an error submitting your order. Please try again.",
 			});
 		}
 	}
@@ -58,9 +58,7 @@ export function OrderForm() {
 	return (
 		<Card className="flex flex-col ">
 			<CardHeader className="items-center pb-4">
-				<CardTitle className="text-xl font-bold">
-					Place an Order
-				</CardTitle>
+				<CardTitle className="text-xl font-bold">Place an Order</CardTitle>
 			</CardHeader>
 			<CardContent className="w-full">
 				<Form {...form}>
@@ -74,9 +72,7 @@ export function OrderForm() {
 							name="symbol"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="font-medium ">
-										Symbol
-									</FormLabel>
+									<FormLabel className="font-medium ">Symbol</FormLabel>
 									<FormControl>
 										<Input
 											placeholder="Enter symbol"
@@ -94,9 +90,7 @@ export function OrderForm() {
 							name="quantity"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="font-medium ">
-										Quantity
-									</FormLabel>
+									<FormLabel className="font-medium ">Quantity</FormLabel>
 									<FormControl>
 										<Input
 											type="number"
@@ -104,9 +98,7 @@ export function OrderForm() {
 											{...field}
 											className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
 											onChange={(e) =>
-												field.onChange(
-													parseFloat(e.target.value),
-												)
+												field.onChange(parseFloat(e.target.value))
 											}
 										/>
 									</FormControl>
@@ -120,9 +112,7 @@ export function OrderForm() {
 							name="price"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="font-medium">
-										Price
-									</FormLabel>
+									<FormLabel className="font-medium">Price</FormLabel>
 									<FormControl>
 										<Input
 											type="number"
@@ -130,9 +120,7 @@ export function OrderForm() {
 											{...field}
 											className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
 											onChange={(e) =>
-												field.onChange(
-													parseFloat(e.target.value),
-												)
+												field.onChange(parseFloat(e.target.value))
 											}
 										/>
 									</FormControl>

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Input } from '@/components/ui/input';
+import { Input } from "@/components/ui/input";
 import {
 	Table,
 	TableBody,
@@ -8,7 +8,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -19,8 +19,8 @@ import {
 	getPaginationRowModel,
 	getSortedRowModel,
 	useReactTable,
-} from '@tanstack/react-table';
-import * as React from 'react';
+} from "@tanstack/react-table";
+import * as React from "react";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
@@ -30,8 +30,9 @@ export function DataTable<TData, TValue>({
 	data,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] =
-		React.useState<ColumnFiltersState>([]);
+	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+		[],
+	);
 
 	const table = useReactTable({
 		data,
@@ -54,14 +55,10 @@ export function DataTable<TData, TValue>({
 				<Input
 					placeholder="Filter holdings..."
 					value={
-						(table
-							.getColumn('tradingsymbol')
-							?.getFilterValue() as string) ?? ''
+						(table.getColumn("tradingsymbol")?.getFilterValue() as string) ?? ""
 					}
 					onChange={(event) =>
-						table
-							.getColumn('tradingsymbol')
-							?.setFilterValue(event.target.value)
+						table.getColumn("tradingsymbol")?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm"
 				/>
@@ -77,8 +74,7 @@ export function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef
-															.header,
+														header.column.columnDef.header,
 														header.getContext(),
 													)}
 										</TableHead>
@@ -92,9 +88,7 @@ export function DataTable<TData, TValue>({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={
-										row.getIsSelected() && 'selected'
-									}
+									data-state={row.getIsSelected() && "selected"}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>

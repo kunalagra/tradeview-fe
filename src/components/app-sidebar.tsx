@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
-import { NavMain } from '@/components/nav-main';
-import { NavUser } from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
+import { NavMain } from "@/components/nav-main";
+import { NavUser } from "@/components/nav-user";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
 	SidebarHeader,
 	SidebarRail,
-} from '@/components/ui/sidebar';
-import axiosClient from '@/lib/axiosClient';
-import { getCookie, setCookie } from 'cookies-next';
-import { ChartCandlestick, GalleryVerticalEnd } from 'lucide-react';
-import * as React from 'react';
+} from "@/components/ui/sidebar";
+import axiosClient from "@/lib/axiosClient";
+import { getCookie, setCookie } from "cookies-next";
+import { ChartCandlestick, GalleryVerticalEnd } from "lucide-react";
+import * as React from "react";
 
 // This is sample data.
 const data = {
 	teams: [
 		{
-			name: 'Zerodha',
+			name: "Zerodha",
 			logo: GalleryVerticalEnd,
-			plan: 'Enterprise',
+			plan: "Enterprise",
 		},
 	],
 	navMain: [
 		{
-			title: 'Overview',
-			url: '/dashboard/overview',
+			title: "Overview",
+			url: "/dashboard/overview",
 			icon: ChartCandlestick,
 			isActive: false,
 			items: [],
@@ -45,30 +45,28 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 	React.useEffect(() => {
 		async function fetchUserProfile() {
-			const cachedUser = await getCookie('userProfile');
+			const cachedUser = await getCookie("userProfile");
 			if (cachedUser) {
 				setUser(JSON.parse(cachedUser));
 				setLoading(false);
 			} else {
 				try {
-					const response = await axiosClient.get('/user/profile'); // Replace with your endpoint
+					const response = await axiosClient.get("/user/profile"); // Replace with your endpoint
 					const apiData = response.data?.data; // Extract data from the API response
 
 					if (apiData) {
 						const formattedUser = {
 							name: apiData.user_name, // Mapping user_name to name
 							email: apiData.email,
-							avatar: '/avatars/shadcn.jpg', // Static avatar URL
+							avatar: "/avatars/shadcn.jpg", // Static avatar URL
 						};
-						setCookie(
-							'userProfile',
-							JSON.stringify(formattedUser),
-							{ maxAge: 60 * 60 * 24 * 7 },
-						); // Set cookie for 7 days
+						setCookie("userProfile", JSON.stringify(formattedUser), {
+							maxAge: 60 * 60 * 24 * 7,
+						}); // Set cookie for 7 days
 						setUser(formattedUser);
 					}
 				} catch (error) {
-					console.error('Error fetching profile:', error);
+					console.error("Error fetching profile:", error);
 					setUser(null); // Fallback user data can be set here if needed
 				} finally {
 					setLoading(false);
