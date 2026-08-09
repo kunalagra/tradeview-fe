@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { DataTable } from '@/components/data-table';
-import axiosClient from '@/lib/axiosClient';
-import { useEffect, useState } from 'react';
-import { Holdings, columns, getColor } from './holdings';
+import { DataTable } from "@/components/data-table";
+import axiosClient from "@/lib/axiosClient";
+import { useEffect, useState } from "react";
+import { Holdings, columns, getColor } from "./holdings";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function HoldingsTable() {
 	const [holdingData, setHoldingData] = useState<Holdings[]>([]);
@@ -14,14 +14,14 @@ export function HoldingsTable() {
 	useEffect(() => {
 		// Fetch data when component mounts
 		axiosClient
-			.get('/portfolio/holdings') // Replace with your actual endpoint
+			.get("/portfolio/holdings") // Replace with your actual endpoint
 			.then((response) => {
-				if (response.data.status === 'success') {
+				if (response.data.status === "success") {
 					setHoldingData(response.data.data);
 				}
 			})
 			.catch((error) => {
-				console.error('Error fetching holding data', error);
+				console.error("Error fetching holding data", error);
 			})
 			.finally(() => {
 				setLoading(false);
@@ -47,8 +47,7 @@ export function HoldingsTable() {
 
 	const calculatePercentageChange = () => {
 		const initialValue = holdingData.reduce(
-			(total, holding) =>
-				total + holding.average_price * holding.quantity,
+			(total, holding) => total + holding.average_price * holding.quantity,
 			0,
 		);
 		const currentValue = calculateTotalValue();
@@ -73,9 +72,7 @@ export function HoldingsTable() {
 				{/* Total Value Card */}
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">
-							Total Value
-						</CardTitle>
+						<CardTitle className="text-sm font-medium">Total Value</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<div
@@ -85,8 +82,7 @@ export function HoldingsTable() {
 							₹{calculateTotalValue().toFixed(2)}
 						</div>
 						<p className="text-xs text-muted-foreground">
-							Portfolio up by{' '}
-							{calculatePercentageChange().toFixed(2)}%
+							Portfolio up by {calculatePercentageChange().toFixed(2)}%
 						</p>
 					</CardContent>
 				</Card>
@@ -114,9 +110,7 @@ export function HoldingsTable() {
 				{/* Total PnL Card */}
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">
-							Net PnL
-						</CardTitle>
+						<CardTitle className="text-sm font-medium">Net PnL</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<div
@@ -139,9 +133,7 @@ export function HoldingsTable() {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">
-							{holdingData.length}
-						</div>
+						<div className="text-2xl font-bold">{holdingData.length}</div>
 						<p className="text-xs text-muted-foreground">
 							Total number of holdings
 						</p>

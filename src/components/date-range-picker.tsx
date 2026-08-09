@@ -1,15 +1,15 @@
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import * as React from 'react';
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import * as React from "react";
 
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 // Define props for DatePickerWithRange
 interface DatePickerWithRangeProps
@@ -26,26 +26,26 @@ export function DatePickerWithRange({
 	setDateRange,
 }: DatePickerWithRangeProps) {
 	return (
-		<div className={cn('grid gap-2', className)}>
+		<div className={cn("grid gap-2", className)}>
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button
 						id="date"
-						variant={'outline'}
+						variant={"outline"}
 						className={cn(
-							'justify-start text-left font-normal',
-							!dateRange.from && 'text-muted-foreground',
+							"justify-start text-left font-normal",
+							!dateRange.from && "text-muted-foreground",
 						)}
 					>
 						<CalendarIcon />
 						{dateRange.from ? (
 							dateRange.to ? (
 								<>
-									{format(dateRange.from, 'LLL dd, y')} -{' '}
-									{format(dateRange.to, 'LLL dd, y')}
+									{format(dateRange.from, "LLL dd, y")} -{" "}
+									{format(dateRange.to, "LLL dd, y")}
 								</>
 							) : (
-								format(dateRange.from, 'LLL dd, y')
+								format(dateRange.from, "LLL dd, y")
 							)
 						) : (
 							<span>Pick a date</span>

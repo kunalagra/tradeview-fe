@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -8,26 +8,26 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/hooks/use-toast';
-import { loginUser } from '@/lib/authLib';
-import axiosClient from '@/lib/axiosClient';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast";
+import { loginUser } from "@/lib/authLib";
+import axiosClient from "@/lib/axiosClient";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 // Define Zod schema for form validation
 const createAccountSchema = z.object({
-	userName: z.string().min(1, 'Name is required.'),
+	userName: z.string().min(1, "Name is required."),
 	email: z
 		.string()
-		.email('Please enter a valid email address.')
-		.min(1, 'Email is required.'),
-	password: z.string().min(6, 'Password must be at least 6 characters long.'),
+		.email("Please enter a valid email address.")
+		.min(1, "Email is required."),
+	password: z.string().min(6, "Password must be at least 6 characters long."),
 });
 
 type CreateAccountFormData = z.infer<typeof createAccountSchema>;
@@ -41,35 +41,35 @@ export function CreateAccount() {
 	} = useForm<CreateAccountFormData>({
 		resolver: zodResolver(createAccountSchema), // Zod validation resolver
 	});
-	const [error, setError] = useState<string>('');
+	const [error, setError] = useState<string>("");
 
 	const onSubmit = async (data: CreateAccountFormData) => {
-		setError(''); // Clear any previous error messages
+		setError(""); // Clear any previous error messages
 
 		try {
-			const response = await axiosClient.post('user/register', {
+			const response = await axiosClient.post("user/register", {
 				user_name: data.userName,
 				email: data.email,
 				password: data.password,
-				user_type: 'individual',
-				broker: 'ZERODHA',
+				user_type: "individual",
+				broker: "ZERODHA",
 			});
 
 			if (response.status === 200) {
 				await loginUser(data.email, data.password); // Automatically login after registration
-				router.push('/dashboard');
+				router.push("/dashboard");
 				toast({
-					title: 'Registration Successful',
-					description: 'You have successfully logged in!',
+					title: "Registration Successful",
+					description: "You have successfully logged in!",
 				});
 			}
 		} catch (err) {
 			console.error(err);
 			toast({
-				title: 'Registration Failed',
-				description: 'Failed to create an account',
+				title: "Registration Failed",
+				description: "Failed to create an account",
 			});
-			setError('Failed to create an account');
+			setError("Failed to create an account");
 		}
 	};
 
@@ -90,13 +90,11 @@ export function CreateAccount() {
 							id="userName"
 							type="text"
 							placeholder="John Doe"
-							{...register('userName')}
+							{...register("userName")}
 						/>
 						{/* Display validation error for userName */}
 						{errors.userName && (
-							<p className="text-red-500">
-								{errors.userName.message}
-							</p>
+							<p className="text-red-500">{errors.userName.message}</p>
 						)}
 					</div>
 
@@ -107,29 +105,21 @@ export function CreateAccount() {
 							id="email"
 							type="email"
 							placeholder="m@example.com"
-							{...register('email')}
+							{...register("email")}
 						/>
 						{/* Display validation error for email */}
 						{errors.email && (
-							<p className="text-red-500">
-								{errors.email.message}
-							</p>
+							<p className="text-red-500">{errors.email.message}</p>
 						)}
 					</div>
 
 					{/* Password Field */}
 					<div className="grid gap-2">
 						<Label htmlFor="password">Password</Label>
-						<Input
-							id="password"
-							type="password"
-							{...register('password')}
-						/>
+						<Input id="password" type="password" {...register("password")} />
 						{/* Display validation error for password */}
 						{errors.password && (
-							<p className="text-red-500">
-								{errors.password.message}
-							</p>
+							<p className="text-red-500">{errors.password.message}</p>
 						)}
 					</div>
 

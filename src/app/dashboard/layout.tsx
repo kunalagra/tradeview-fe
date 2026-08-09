@@ -1,12 +1,12 @@
-import { AppSidebar } from '@/components/app-sidebar';
-import Header from '@/components/layout/header';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
+import { AppSidebar } from "@/components/app-sidebar";
+import Header from "@/components/layout/header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import type { Metadata } from "next";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
-	title: 'Dashboard | TradeDesk',
-	description: 'Quick Glance into the TradeDesk',
+	title: "Dashboard | TradeDesk",
+	description: "Quick Glance into the TradeDesk",
 };
 
 export default async function DashboardLayout({
@@ -16,7 +16,7 @@ export default async function DashboardLayout({
 }) {
 	// Persisting the sidebar state in the cookie.
 	const cookieStore = await cookies();
-	const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true';
+	const defaultOpen = cookieStore.get("sidebar:state")?.value === "true";
 
 	return (
 		<SidebarProvider defaultOpen={defaultOpen}>

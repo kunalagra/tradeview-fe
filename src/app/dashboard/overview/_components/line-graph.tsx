@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { format } from 'date-fns';
-import { useEffect, useRef, useState } from 'react';
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { format } from "date-fns";
+import { useEffect, useRef, useState } from "react";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
-import { DatePickerWithRange } from '@/components/date-range-picker';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DatePickerWithRange } from "@/components/date-range-picker";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
-} from '@/components/ui/chart';
+} from "@/components/ui/chart";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 interface ChartData {
 	date: string;
@@ -27,14 +27,14 @@ interface ChartData {
 
 const chartConfig = {
 	indices: {
-		label: 'Indices',
-		color: 'hsl(var(--chart-2))',
+		label: "Indices",
+		color: "hsl(var(--chart-2))",
 	},
 } satisfies ChartConfig;
 
 export function LineGraph() {
 	const [indices, setIndices] = useState<string[]>([]);
-	const [selectedIndex, setSelectedIndex] = useState<string>('');
+	const [selectedIndex, setSelectedIndex] = useState<string>("");
 	const [chartData, setChartData] = useState<ChartData[]>([]);
 	const [dateRange, setDateRange] = useState<{
 		from: Date | undefined;
@@ -50,42 +50,42 @@ export function LineGraph() {
 		const fetchIndices = async () => {
 			try {
 				const socket = new WebSocket(
-					process.env.NEXT_PUBLIC_WEBSOCKET_URL || '',
+					process.env.NEXT_PUBLIC_WEBSOCKET_URL || "",
 				);
 
 				socket.onopen = () => {
-					socket.send(JSON.stringify({ type: 'getIndices' }));
+					socket.send(JSON.stringify({ type: "getIndices" }));
 				};
 
 				socket.onmessage = (event) => {
 					const data = JSON.parse(event.data);
-					if (data.type === 'indices') {
+					if (data.type === "indices") {
 						setIndices(data.data);
 						if (data.data.length > 0) {
 							setSelectedIndex(data.data[0]);
 						}
-					} else if (data.type === 'chartData') {
+					} else if (data.type === "chartData") {
 						if (data.data.length > 0) {
 							setChartData(data.data);
 							setError(null);
-						} else setError('No data available');
-					} else if (data.type === 'error') {
+						} else setError("No data available");
+					} else if (data.type === "error") {
 						setError(data.message);
 					}
 				};
 
 				socket.onerror = (error) => {
-					console.error('WebSocket error:', error);
+					console.error("WebSocket error:", error);
 				};
 
 				socket.onclose = () => {
-					console.warn('WebSocket connection closed.');
+					console.warn("WebSocket connection closed.");
 				};
 
 				wsRef.current = socket;
 			} catch (error) {
-				setError('Failed to fetch indices.');
-				console.error('Failed to fetch indices:', error);
+				setError("Failed to fetch indices.");
+				console.error("Failed to fetch indices:", error);
 			}
 		};
 
@@ -99,20 +99,15 @@ export function LineGraph() {
 	}, []);
 
 	useEffect(() => {
-		if (
-			!selectedIndex ||
-			!dateRange.from ||
-			!dateRange.to ||
-			!wsRef.current
-		)
+		if (!selectedIndex || !dateRange.from || !dateRange.to || !wsRef.current)
 			return;
 
-		const fromDate = format(dateRange.from, 'yyyy-MM-dd');
-		const toDate = format(dateRange.to, 'yyyy-MM-dd');
+		const fromDate = format(dateRange.from, "yyyy-MM-dd");
+		const toDate = format(dateRange.to, "yyyy-MM-dd");
 
 		wsRef.current.send(
 			JSON.stringify({
-				type: 'getChartData',
+				type: "getChartData",
 				symbol: selectedIndex,
 				from_date: fromDate,
 				to_date: toDate,
@@ -179,23 +174,13 @@ export function LineGraph() {
 				</div>
 				<div className="flex flex-col sm:flex-row gap-4 items-center">
 					{/* Dropdown for Indices */}
-					<Select
-						value={selectedIndex}
-						onValueChange={setSelectedIndex}
-					>
-						<SelectTrigger
-							className="rounded-lg"
-							aria-label="Select an index"
-						>
+					<Select value={selectedIndex} onValueChange={setSelectedIndex}>
+						<SelectTrigger className="rounded-lg" aria-label="Select an index">
 							<SelectValue placeholder="Select Index" />
 						</SelectTrigger>
 						<SelectContent className="rounded-xl">
 							{indices.map((index) => (
-								<SelectItem
-									key={index}
-									value={index}
-									className="rounded-lg"
-								>
+								<SelectItem key={index} value={index} className="rounded-lg">
 									{index}
 								</SelectItem>
 							))}
@@ -232,10 +217,7 @@ export function LineGraph() {
 								bottom: 12,
 							}}
 						>
-							<CartesianGrid
-								vertical={false}
-								strokeDasharray="3 3"
-							/>
+							<CartesianGrid vertical={false} strokeDasharray="3 3" />
 							<XAxis
 								dataKey="date"
 								tickLine={false}
@@ -244,16 +226,16 @@ export function LineGraph() {
 								minTickGap={32}
 								tickFormatter={(value) => {
 									const date = new Date(value);
-									return date.toLocaleDateString('en-US', {
-										month: 'short',
-										day: 'numeric',
+									return date.toLocaleDateString("en-US", {
+										month: "short",
+										day: "numeric",
 									});
 								}}
 							/>
 							<YAxis
 								tickLine={false}
 								axisLine={false}
-								domain={['auto', 'auto']} // Automatically adjusts to the data range
+								domain={["auto", "auto"]} // Automatically adjusts to the data range
 								tickMargin={8}
 							/>
 							<ChartTooltip
@@ -262,12 +244,10 @@ export function LineGraph() {
 										className="w-[150px]"
 										nameKey="Data"
 										labelFormatter={(value) => {
-											return new Date(
-												value,
-											).toLocaleDateString('en-US', {
-												month: 'short',
-												day: 'numeric',
-												year: 'numeric',
+											return new Date(value).toLocaleDateString("en-US", {
+												month: "short",
+												day: "numeric",
+												year: "numeric",
 											});
 										}}
 									/>

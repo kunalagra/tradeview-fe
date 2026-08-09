@@ -1,19 +1,19 @@
-import axios from 'axios';
-import { getCookie } from 'cookies-next';
-import { logoutUser } from './authLib';
+import axios from "axios";
+import { getCookie } from "cookies-next";
+import { logoutUser } from "./authLib";
 
 const axiosClient = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 	timeout: 10000, // Optional: Set a request timeout
 	headers: {
-		'Content-Type': 'application/json',
+		"Content-Type": "application/json",
 	},
 });
 
 axiosClient.interceptors.request.use(
 	(config) => {
 		// Add authorization token
-		const token = getCookie('token'); // Get token from cookies
+		const token = getCookie("token"); // Get token from cookies
 
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`;
@@ -31,10 +31,7 @@ axiosClient.interceptors.response.use(
 		if (error.response && error.response.status === 401) {
 			const errorMessage = error.response.data.message;
 
-			if (
-				errorMessage &&
-				errorMessage === 'Authorization token expired'
-			) {
+			if (errorMessage && errorMessage === "Authorization token expired") {
 				logoutUser();
 			}
 		}

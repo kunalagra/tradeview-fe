@@ -1,9 +1,9 @@
-import { LoginForm } from '@/components/login-form';
-import { Metadata } from 'next';
+import { LoginForm } from "@/components/login-form";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: 'Login | TradeDesk',
-	description: 'Login to your account',
+	title: "Login | TradeDesk",
+	description: "Login to your account",
 };
 
 export default function Page() {
