@@ -1,7 +1,5 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Holdings = {
@@ -36,14 +34,14 @@ const formatPercentage = (amount: number) => {
 	}).format(amount / 100);
 };
 
-export const columns: ColumnDef<Holdings>[] = [
+export const columns: any[] = [
 	{ header: "Symbol", accessorKey: "tradingsymbol" },
 	{ header: "Exchange", accessorKey: "exchange" },
 	{ header: "Quantity", accessorKey: "quantity" },
 	{
 		accessorKey: "average_price",
 		header: "Buying Price",
-		cell: ({ row }) => {
+		cell: ({ row }: { row: any }) => {
 			const amount = parseFloat(row.getValue("average_price"));
 			return <div className="font-medium">{formatCurrency(amount)}</div>;
 		},
@@ -51,7 +49,7 @@ export const columns: ColumnDef<Holdings>[] = [
 	{
 		header: "Last Price",
 		accessorKey: "last_price",
-		cell: ({ row }) => {
+		cell: ({ row }: { row: any }) => {
 			const amount = parseFloat(row.getValue("last_price"));
 			const color = getColor(
 				amount - parseFloat(row.getValue("average_price")),
@@ -66,7 +64,7 @@ export const columns: ColumnDef<Holdings>[] = [
 	{
 		header: "Profit/Loss %",
 		accessorKey: "pnl",
-		cell: ({ row }) => {
+		cell: ({ row }: { row: any }) => {
 			const amount = parseFloat(row.getValue("pnl"));
 			const color = getColor(amount);
 			return (
@@ -79,7 +77,7 @@ export const columns: ColumnDef<Holdings>[] = [
 	{
 		header: "Day Change %",
 		accessorKey: "day_change_percentage",
-		cell: ({ row }) => {
+		cell: ({ row }: { row: any }) => {
 			const amount = parseFloat(row.getValue("day_change_percentage"));
 			const color = getColor(amount);
 			return (

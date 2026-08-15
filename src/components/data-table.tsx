@@ -10,21 +10,40 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import {
-	ColumnDef,
-	ColumnFiltersState,
-	SortingState,
+	tableFeatures,
+	rowSortingFeature,
+	columnFilteringFeature,
+	rowPaginationFeature,
+	createFilteredRowModel,
+	createPaginatedRowModel,
+	createSortedRowModel,
+	filterFns,
+	sortFns,
 	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	useReactTable,
+	useTable,
 } from "@tanstack/react-table";
 import * as React from "react";
+
+type DataTableColumnDef<TData, TValue> = any;
+type ColumnFiltersState = Array<{ id: string; value: unknown }>;
+type SortingState = Array<{ id: string; desc: boolean }>;
+
+const features = tableFeatures({
+	columnFilteringFeature,
+	rowSortingFeature,
+	rowPaginationFeature,
+	filteredRowModel: createFilteredRowModel(),
+	sortedRowModel: createSortedRowModel(),
+	paginatedRowModel: createPaginatedRowModel(),
+	filterFns,
+	sortFns,
+});
+
 interface DataTableProps<TData, TValue> {
-	columns: ColumnDef<TData, TValue>[];
+	columns: DataTableColumnDef<TData, TValue>[];
 	data: TData[];
 }
+
 export function DataTable<TData, TValue>({
 	columns,
 	data,
@@ -34,15 +53,12 @@ export function DataTable<TData, TValue>({
 		[],
 	);
 
-	const table = useReactTable({
+	const table = useTable({
+		features,
 		data,
 		columns,
 		onSortingChange: setSorting,
-		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		getSortedRowModel: getSortedRowModel(),
 		onColumnFiltersChange: setColumnFilters,
-		getFilteredRowModel: getFilteredRowModel(),
 		state: {
 			sorting,
 			columnFilters,
@@ -66,9 +82,9 @@ export function DataTable<TData, TValue>({
 			<div className="rounded-md border">
 				<Table>
 					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => {
+					{table.getHeaderGroups().map((headerGroup: any) => (
+						<TableRow key={headerGroup.id}>
+							{headerGroup.headers.map((header: any) => {
 									return (
 										<TableHead key={header.id}>
 											{header.isPlaceholder
@@ -85,12 +101,12 @@ export function DataTable<TData, TValue>({
 					</TableHeader>
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
+								table.getRowModel().rows.map((row: any) => (
 								<TableRow
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
 								>
-									{row.getVisibleCells().map((cell) => (
+										{row.getVisibleCells().map((cell: any) => (
 										<TableCell key={cell.id}>
 											{flexRender(
 												cell.column.columnDef.cell,
